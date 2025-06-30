@@ -22,11 +22,20 @@ Example secret: JWT_SECRET
 
 # Tech Stack
 
-Node.js, Express, TypeScript
+Node.js + Express + TypeScript
+Easy to build APIs quickly with strong typing and lots of community examples.
 
-Vite, React
+React + Vite
+Simple setup for building a fast UI with minimal config.
 
-LocalStack, Terraform
+Terraform + LocalStack
+Allows testing cloud resources locally and keeps infrastructure repeatable.
+
+dotenv + JWT
+Secure secrets and standard token handling for auth.
+
+ESLint + Jest
+Basic linting and testing to keep the code clean and maintainable.
 
 # Quickstart
 
@@ -99,12 +108,84 @@ Prompts
 
 Iterations
 
-# TODO
+# TODO's
 
-Implement full OIDC spec: AuthCode flow, UserInfo, JWKS endpoints
+# OpenID Connect Core
 
-Terraform: DynamoDB user store, Secrets Manager, S3
+Implement full Authorization Code Flow with PKCE, state, and nonce.
 
-Session and client app management
+Add user consent screen for OAuth flow.
 
-Tests and security improvements
+Store and validate authorization codes.
+
+Issue proper ID tokens with real user claims.
+
+Add refresh token support.
+
+# User Management
+
+Add secure user registration with hashed passwords (bcrypt/argon2).
+
+Implement profile management endpoints.
+
+Validate all user inputs to prevent injection attacks.
+
+# Security
+
+Add rate limiting to prevent brute-force attacks.
+
+Enforce HTTPS in production.
+
+Implement CSRF protection middleware.
+
+Sanitize and validate all input.
+
+Rotate JWKS keys and expose real JWKS at /jwks.json.
+
+Use Helmet to set secure HTTP headers.
+
+Add Content Security Policy (CSP) headers.
+
+# Infrastructure as Code
+
+Add Terraform definitions for:
+
+DynamoDB user store
+
+Secrets Manager for JWT secrets
+
+S3 buckets for assets or logs
+
+Logging and monitoring (e.g., CloudWatch)
+
+Proper IAM roles for services
+
+Add LocalStack configuration to simulate these resources.
+
+# Frontend
+
+Implement full login/logout flow with PKCE on client side.
+
+Build responsive OAuth consent screen.
+
+Add secure token handling (e.g., HttpOnly cookies).
+
+Implement user registration and profile update forms.
+
+# Testing
+
+Add unit tests for key routes (auth, token, userinfo).
+
+Add integration tests for complete OIDC flows.
+
+Document security test coverage.
+
+# Documentation & Deployment
+
+Include architecture diagram showing all components.
+
+Document production deployment steps and environment hardening.
+
+Record a short demo video walkthrough.
+
+Add SECURITY.md with known risks and mitigations.
