@@ -1,0 +1,32 @@
+# Node modules
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# dotenv files
+.env
+
+# Build output
+dist/
+build/
+
+# LocalStack state (if any)
+.localstack/
+
+# .DS_Store for macOS
+.DS_Store
+
+# IDE configs
+.vscode/
+.idea/
+
+# Terraform local state files (if using Terraform)
+*.tfstate
+*.tfstate.backup
+.terraform/
+
+# Misc
+*.log
