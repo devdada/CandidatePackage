@@ -1,6 +1,7 @@
 version: "3.8"
 
 services:
+  # removed the host volume mount to fix conflicts between localStack's internal temp directories and host mounts.
   localstack:
     image: localstack/localstack:latest
     container_name: localstack-oidc
