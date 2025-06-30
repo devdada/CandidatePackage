@@ -4,6 +4,11 @@ This document tracks how I used AI tools (ChatGPT, Copilot) to build my OpenID C
 
 ---
 
+## Tools Used
+
+- **ChatGPT**: Prompting and refinement of backend and frontend scaffolding, Docker Compose adjustments, LocalStack troubleshooting, Terraform structure ideas, and Vite + React crypto polyfill fixes.
+- **GitLens**: For commit history and Git integration in VS Code.
+
 ## Prompts & Iterations
 
 ### 1️⃣ LocalStack Volume Conflict
