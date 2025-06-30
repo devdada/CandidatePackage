@@ -3,18 +3,20 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 
 import authRoutes from './routes/auth';
-import userRoutes from './routes/user';
+import wellKnownRoutes from './routes/wellKnown'; // ✅ CORRECT
 
-dotenv.config(); // Make sure this runs FIRST
+dotenv.config({ path: './.env' });
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-// Mount routes
+// Mount well-known at root
+app.use('/', wellKnownRoutes);
+
+// Mount other routes
 app.use('/auth', authRoutes);
-app.use('/user', userRoutes);
 
 const port = process.env.PORT || 4000;
 
