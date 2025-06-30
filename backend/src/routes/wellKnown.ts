@@ -16,10 +16,10 @@ router.get('/.well-known/openid-configuration', (req: Request, res: Response) =>
   });
 });
 
-// JWKS endpoint
+// JWKS endpoint TODO: Implement JWKS generation
 router.get('/.well-known/jwks.json', (req: Request, res: Response) => {
   res.json({
-    keys: [] // TODO: Implement JWKS generation
+    keys: [] 
   });
 });
 

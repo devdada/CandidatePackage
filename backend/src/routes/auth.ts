@@ -4,14 +4,14 @@ import { v4 as uuidv4 } from 'uuid';
 
 const router = Router();
 
-// Authorization endpoint
+// Authorization endpoint TODO: implement PKCE, state, nonce, consent screen
 router.get('/authorize', (req: Request, res: Response) => {
   res.json({
     message: 'Authorization endpoint - TODO: Implement PKCE, state, nonce, consent screen.'
   });
 });
 
-// Token endpoint
+// Token endpoint TODO: support authorization code flow fully, include refresh tokens
 router.post('/token', (req: Request, res: Response) => {
   const userId = uuidv4();
 
@@ -28,7 +28,7 @@ router.post('/token', (req: Request, res: Response) => {
   res.json({ token });
 });
 
-// UserInfo endpoint
+// UserInfo endpoint TODO: fetch real user claims from DB
 router.get('/userinfo', (req: Request, res: Response) => {
   res.json({
     sub: "1234",
