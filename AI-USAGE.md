@@ -1,51 +1,61 @@
-# AI Usage Log
+AI Usage Log
+This document explains how I used AI tools to develop the OpenID Connect service for this assessment.
 
-This document tracks how I used AI tools (ChatGPT, Copilot) to build my OpenID Connect service.
+# Tools Used
 
----
+ChatGPT
+Used for generating starter backend Express routes, solving JWT signing problems, helping fix LocalStack volume conflicts, troubleshooting crypto polyfills in Vite/React, and drafting README sections.
 
-## Tools Used
+GitLens (VS Code Extension)
+For checking commit history and staging changes properly.
 
-- **ChatGPT**: Prompting and refinement of backend and frontend scaffolding, Docker Compose adjustments, LocalStack troubleshooting, Terraform structure ideas, and Vite + React crypto polyfill fixes.
-- **GitLens**: For commit history and Git integration in VS Code.
+npm and Node.js
+Tested different Node versions to resolve Vite ESM and crypto issues.
 
-## Prompts & Iterations
+# Prompts and Iterations
 
-### 1️⃣ LocalStack Volume Conflict
+## LocalStack Volume Conflict
 
-**Prompt:**
+Prompt:
+“LocalStack fails with OSError: [Errno 16] Device or resource busy when clearing /tmp/localstack.”
 
-> “I’m getting `Device or resource busy` when LocalStack tries to clear `/tmp/localstack`. How do I fix this?”
+Result:
+Removed the /tmp/localstack bind mount from docker-compose.yml. Added a comment explaining this prevents volume conflicts during local runs.
 
-**Outcome:**
+## JWT Secret Not Defined
 
-- Removed conflicting volume mount, confirmed Docker works.
-- Added comment to `docker-compose.yml` explaining fix.
+Prompt:
+“Why does my Express /auth/token route throw secretOrPrivateKey must have a value?”
 
----
+Result:
+Used ChatGPT for a corrected auth.ts example using dotenv.config(). Ensured dotenv loads first in index.ts so environment variables are available before routes run. Tested with curl to confirm token generation works.
 
-### 2️⃣ JWT Secret Not Defined
+## Vite Crypto Polyfill Issue
 
-**Prompt:**
+Prompt:
+“Vite dev server fails with crypto.hash is not a function. How can I fix this in Vite v7?”
 
-> “Why does my Express route return `secretOrPrivateKey must have a value`?”
+Result:
+Tried different Node polyfill plugins based on AI suggestions. Manually resolved version conflicts by matching plugin versions with Vite 7. Confirmed the React app compiles and successfully calls the backend.
 
-**Outcome:**
+# Manual Fixes and Adjustments
 
-- Used `.env` and `dotenv.config()`.
-- Verified correct load order.
-- Prompted ChatGPT for final `auth.ts` example.
+Verified .env loads from the project root instead of backend/.
 
----
+Adjusted import order in index.ts so environment variables are available for routes.
 
-## Manual Interventions
+Added stub routes for /authorize and /userinfo to show OpenID Connect spec coverage.
 
-- Manually adjusted `index.ts` import/export structure.
-- Verified environment variables load before route handlers.
+Ran curl and browser tests to confirm token flow works.
 
----
+# Trade-offs and Gaps
 
-## Next Steps
+Full OpenID Connect features (PKCE, CSRF, consent screen) are marked as TODOs.
 
-- Document partial implementations as TODOs.
-- Include clear security notes for production gaps (e.g., PKCE, CSRF, rate limiting).
+Secrets are handled with .env (not committed). In production, they should be in a secure store.
+
+Documented partial implementations and security notes in the README.
+
+# Summary
+
+AI tools sped up setup, boilerplate generation, and problem-solving for version conflicts. Key areas like environment handling, testing, and crypto polyfills required manual research and testing to complete the flow successfully.
