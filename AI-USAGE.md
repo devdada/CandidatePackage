@@ -4,58 +4,61 @@ This document explains how I used AI tools to develop the OpenID Connect service
 # Tools Used
 
 ChatGPT
-Used for generating starter backend Express routes, solving JWT signing problems, helping fix LocalStack volume conflicts, troubleshooting crypto polyfills in Vite/React, and drafting README sections.
+
+Used for generating starter backend Express routes, fixing JWT signing errors, helping with LocalStack volume conflicts, solving Vite crypto polyfill issues, and drafting README sections.
 
 GitLens (VS Code Extension)
-For checking commit history and staging changes properly.
 
-npm and Node.js
-Tested different Node versions to resolve Vite ESM and crypto issues.
+Used for commit history, staging, and clean version control.
+
+npm & Node.js
+
+Switched Node versions and polyfill plugins to resolve Vite ESM and crypto-related build errors.
 
 # Prompts and Iterations
 
-## LocalStack Volume Conflict
-
+LocalStack Volume Conflict
 Prompt:
+
 “LocalStack fails with OSError: [Errno 16] Device or resource busy when clearing /tmp/localstack.”
 
 Result:
-Removed the /tmp/localstack bind mount from docker-compose.yml. Added a comment explaining this prevents volume conflicts during local runs.
+Removed the /tmp/localstack bind mount from docker-compose.yml. Added a comment to explain this avoids volume conflicts during local development.
 
-## JWT Secret Not Defined
-
+JWT Secret Not Defined
 Prompt:
+
 “Why does my Express /auth/token route throw secretOrPrivateKey must have a value?”
 
 Result:
-Used ChatGPT for a corrected auth.ts example using dotenv.config(). Ensured dotenv loads first in index.ts so environment variables are available before routes run. Tested with curl to confirm token generation works.
+Used ChatGPT to generate an updated auth.ts with dotenv.config(). Verified environment variables load before routes run by adjusting import order in index.ts. Tested with curl to confirm token generation works.
 
-## Vite Crypto Polyfill Issue
-
+Vite Crypto Polyfill Issue
 Prompt:
-“Vite dev server fails with crypto.hash is not a function. How can I fix this in Vite v7?”
+
+“Vite dev server fails with crypto.hash is not a function. How do I fix this in Vite v7?”
 
 Result:
-Tried different Node polyfill plugins based on AI suggestions. Manually resolved version conflicts by matching plugin versions with Vite 7. Confirmed the React app compiles and successfully calls the backend.
+Tested multiple Node polyfill plugins per AI suggestions. Manually resolved version conflicts by matching plugin versions with Vite 7. Confirmed the React app builds and can call the backend successfully.
 
 # Manual Fixes and Adjustments
 
-Verified .env loads from the project root instead of backend/.
+Verified .env loads from the project root instead of backend only.
 
-Adjusted import order in index.ts so environment variables are available for routes.
+Adjusted import order in index.ts to ensure env vars load before route handlers run.
 
-Added stub routes for /authorize and /userinfo to show OpenID Connect spec coverage.
+Added placeholder routes for /authorize and /userinfo for spec coverage.
 
-Ran curl and browser tests to confirm token flow works.
+Tested endpoints with curl and the React client to confirm the basic flow works.
 
 # Trade-offs and Gaps
 
 Full OpenID Connect features (PKCE, CSRF, consent screen) are marked as TODOs.
 
-Secrets are handled with .env (not committed). In production, they should be in a secure store.
+Secrets are handled via .env only for local dev. Production should use secure storage.
 
 Documented partial implementations and security notes in the README.
 
 # Summary
 
-AI tools sped up setup, boilerplate generation, and problem-solving for version conflicts. Key areas like environment handling, testing, and crypto polyfills required manual research and testing to complete the flow successfully.
+AI tools sped up setup, scaffolding, and version troubleshooting. Some areas like environment handling, JWT signing, and Vite polyfills required manual tweaks and testing to ensure everything ran smoothly in LocalStack.
