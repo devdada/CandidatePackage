@@ -53,7 +53,11 @@ Tested endpoints with curl and the React client to confirm the basic flow works.
 
 # Trade-offs and Gaps
 
-Full OpenID Connect features (PKCE, CSRF, consent screen) are marked as TODOs.
+AI helped speed up repetitive setup but had gaps around newer Vite versions and polyfills.
+
+Some JWT and dotenv ordering details were better handled with manual testing.
+
+I documented trade-offs as TODOs so a teammate could follow up on full spec coverage.
 
 Secrets are handled via .env only for local dev. Production should use secure storage.
 
