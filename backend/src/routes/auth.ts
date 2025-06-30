@@ -4,19 +4,27 @@ import { v4 as uuidv4 } from 'uuid';
 
 const router = Router();
 
-// Example: Authorization endpoint
+// Example: GET /auth/authorize
 router.get('/authorize', (req: Request, res: Response) => {
-  // TODO: Implement auth code flow
-  return res.json({ message: 'Auth endpoint placeholder' });
+  res.json({ message: 'Auth endpoint placeholder' });
 });
 
-// Example: Token endpoint
+// Example: POST /auth/token
 router.post('/token', (req: Request, res: Response) => {
-  const userId = uuidv4(); // In real use, look up user
-  const token = jwt.sign({ sub: userId }, process.env.JWT_SECRET as string, {
-    expiresIn: '1h',
-  });
-  return res.json({ access_token: token, token_type: 'Bearer' });
+  const userId = uuidv4();
+
+  // Ensure you have JWT_SECRET loaded
+  if (!process.env.JWT_SECRET) {
+    return res.status(500).json({ error: 'JWT_SECRET is not defined' });
+  }
+
+  const token = jwt.sign(
+    { userId },
+    process.env.JWT_SECRET as string,
+    { expiresIn: '1h' }
+  );
+
+  res.json({ token });
 });
 
 export default router;
