@@ -1,0 +1,55 @@
+version: "3.8"
+
+services:
+  localstack:
+    image: localstack/localstack:latest
+    container_name: localstack-oidc
+    ports:
+      - "4566:4566"
+      - "4510-4559:4510-4559"
+    environment:
+      - SERVICES=dynamodb,secretsmanager,apigateway,lambda,iam,s3
+      - DEBUG=1
+      - LAMBDA_EXECUTOR=docker
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - AWS_DEFAULT_REGION=us-east-2
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./aws-init:/docker-entrypoint-initaws.d
+    networks:
+      - oidc-network
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: oidc-postgres
+    environment:
+      - POSTGRES_DB=oidc_db
+      - POSTGRES_USER=oidc_user
+      - POSTGRES_PASSWORD=oidc_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./db-init:/docker-entrypoint-initdb.d
+    networks:
+      - oidc-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: oidc-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+    networks:
+      - oidc-network
+
+networks:
+  oidc-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  redis-data:
+  localstack-data:
