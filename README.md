@@ -87,19 +87,6 @@ Click the Get Token button
 
 See the token in the console or UI
 
-# Project Structure
-
-pgsql
-Copy
-Edit
-CandidatePackage/
-├── backend/ Express server
-├── frontend/ React app
-├── infra/ Terraform and IaC
-├── docker-compose.yml
-├── AI-USAGE.md
-└── README.md
-
 # AI Usage
 
 See AI-USAGE.md for details:
